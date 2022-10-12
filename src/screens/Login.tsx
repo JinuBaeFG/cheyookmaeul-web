@@ -15,10 +15,10 @@ import Separator from "../components/auth/Separator";
 import PageTitle from "../components/PageTitle";
 import routes from "../routes";
 
-type LoginProps = {
+interface ILogin {
   username: string;
   password: string;
-};
+}
 
 const FacebookLogin = styled.div`
   color: #385285;
@@ -29,14 +29,10 @@ const FacebookLogin = styled.div`
 `;
 
 function Login() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<LoginProps>({
+  const { register, handleSubmit, formState } = useForm<ILogin>({
     mode: "onChange",
   });
-  const onSubmitValid: SubmitHandler<LoginProps> = (data: LoginProps) => {
+  const onSubmitValid: SubmitHandler<ILogin> = (data) => {
     //console.log(data);
   };
   return (
@@ -48,7 +44,7 @@ function Login() {
         </div>
         <form onSubmit={handleSubmit(onSubmitValid)}>
           <Input
-            {...register("username", {
+            ref={register({
               required: "Username is required",
               minLength: {
                 value: 5,
@@ -58,20 +54,20 @@ function Login() {
             name="username"
             type="text"
             placeholder="Username"
-            hasError={Boolean(errors?.username?.message)}
+            hasError={Boolean(formState.errors?.password?.message)}
           />
-          <FormError message={errors?.username?.message} />
+          <FormError message={formState.errors?.username?.message} />
           <Input
-            {...register("password", {
+            ref={register({
               required: "Password is required.",
             })}
             name="password"
             type="password"
             placeholder="Password"
-            hasError={Boolean(errors?.password?.message)}
+            hasError={Boolean(formState.errors?.password?.message)}
           />
-          <FormError message={errors?.password?.message} />
-          <Button type="submit" value="Log in" disabled={!isValid} />
+          <FormError message={formState.errors?.password?.message} />
+          <Button type="submit" value="Log in" disabled={!formState.isValid} />
         </form>
         <Separator />
         <FacebookLogin>
