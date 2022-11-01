@@ -1,16 +1,44 @@
-import { isLoggedInVar } from "../apollo";
+import { gql, useQuery } from "@apollo/client";
+import Photo from "../components/feed/Photo";
+import PageTitle from "../components/PageTitle";
+
+const FEED_QUERY = gql`
+  query seeFeed {
+    seeFeed {
+      id
+      user {
+        username
+        avatar
+      }
+      file
+      caption
+      likes
+      comments {
+        id
+        user {
+          username
+          avatar
+        }
+        payload
+        isMine
+        createdAt
+      }
+      commentNumber
+      createdAt
+      isMine
+      isLiked
+    }
+  }
+`;
 
 function Home() {
+  const { data } = useQuery(FEED_QUERY);
   return (
     <div>
-      <h1>Home</h1>
-      <button
-        onClick={() => {
-          isLoggedInVar(false);
-        }}
-      >
-        Log Out Now!
-      </button>
+      <PageTitle title="Home" />
+      {data?.seeFeed?.map((photo: any) => (
+        <Photo key={photo.id} {...photo} />
+      ))}
     </div>
   );
 }

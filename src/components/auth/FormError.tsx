@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+interface IForm {
+  message: string | undefined;
+}
+
 const SFormError = styled.span`
   color: tomato;
   font-weight: 600;
@@ -7,7 +11,7 @@ const SFormError = styled.span`
   margin: 5px 0px 10px 0px;
 `;
 
-function FormError({ message }: any) {
+function FormError({ message }: IForm) {
   return message === "" || !message ? null : <SFormError>{message}</SFormError>;
 }
 
