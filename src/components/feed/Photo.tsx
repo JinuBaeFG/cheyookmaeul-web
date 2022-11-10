@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import Avatar from "../../components/Avatar";
 import { FatText } from "../../components/shared";
-import PropTypes from "prop-types";
 import { gql, useMutation } from "@apollo/client";
 import Comments from "./Comments";
 import { seeFeed_seeFeed } from "../../__generated__/seeFeed";
@@ -17,6 +16,7 @@ import {
   toggleLike,
   toggleLikeVariables,
 } from "../../__generated__/toggleLike";
+import { Link } from "react-router-dom";
 
 interface IPhotoUser {
   username: string;
@@ -109,10 +109,10 @@ const Photo = ({
       cache.modify({
         id: photoId,
         fields: {
-          isLiked(prev: any) {
+          isLiked(prev: boolean) {
             return !prev;
           },
-          likes(prev: any) {
+          likes(prev: number) {
             if (isLiked) {
               return prev - 1;
             }
@@ -135,8 +135,12 @@ const Photo = ({
     <div>
       <PhotoContainer key={id}>
         <PhotoHeader>
-          <Avatar lg url={user.avatar} />
-          <Username>{user.username}</Username>
+          <Link to={`/users/${user.username}`}>
+            <Avatar lg url={user.avatar} />
+          </Link>
+          <Link to={`/users/${user.username}`}>
+            <Username>{user.username}</Username>
+          </Link>
         </PhotoHeader>
         {file !== "empty" ? <PhotoFile src={file} /> : null}
         <PhotoData>
@@ -175,17 +179,6 @@ const Photo = ({
       </PhotoContainer>
     </div>
   );
-};
-
-Photo.propTypes = {
-  id: PropTypes.number.isRequired,
-  user: PropTypes.shape({
-    avatar: PropTypes.string,
-    username: PropTypes.string.isRequired,
-  }),
-  file: PropTypes.string.isRequired,
-  isLiked: PropTypes.bool.isRequired,
-  likes: PropTypes.number.isRequired,
 };
 
 export default Photo;

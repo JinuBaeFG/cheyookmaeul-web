@@ -7,6 +7,7 @@ import {
   createCommentVariables,
 } from "../../__generated__/createComment";
 import { seeFeed_seeFeed_comments } from "../../__generated__/seeFeed";
+import Caption from "./Caption";
 import Comment from "./Comment";
 
 interface ICommentsProps {
@@ -14,7 +15,7 @@ interface ICommentsProps {
   author: string | undefined;
   caption: string | undefined;
   commentNumber: number;
-  comments: (seeFeed_seeFeed_comments | undefined)[] | undefined;
+  comments: seeFeed_seeFeed_comments[] | undefined;
 }
 
 const CREATE_COMMENT_MUTATION = gql`
@@ -71,6 +72,7 @@ const Comments = ({
         createComment: { ok, id },
       },
     } = result;
+
     if (ok && userData?.me) {
       const newComment = {
         __typename: "Comment",
@@ -82,14 +84,30 @@ const Comments = ({
           ...userData.me,
         },
       };
-      const commentPhotoId = `Photo:${photoId}`;
+
+      const newCacheComment = cache.writeFragment({
+        data: newComment,
+        fragment: gql`
+          fragment BSName on Comment {
+            id
+            createdAt
+            isMine
+            payload
+            user {
+              username
+              avatar
+            }
+          }
+        `,
+      });
+
       cache.modify({
-        id: commentPhotoId,
+        id: `Photo:${photoId}`,
         fileds: {
-          comments: (prev: any) => {
-            return [...prev, newComment];
+          comments(prev: seeFeed_seeFeed_comments[]) {
+            return [...prev, newCacheComment];
           },
-          commentNumber: (prev: any) => {
+          commentNumber(prev: number) {
             return prev + 1;
           },
         },
@@ -115,17 +133,21 @@ const Comments = ({
       },
     });
   };
+
   return (
     <CommentsContainer>
-      <Comment author={author} payload={caption} />
+      <Caption author={author} payload={caption} />
       <CommentCount>
         {commentNumber === 1 ? "1 comment" : `${commentNumber} comments`}
       </CommentCount>
       {comments?.map((comment) => (
         <Comment
-          key={comment?.id}
-          author={comment?.user.username}
-          payload={comment?.payload}
+          key={comment.id}
+          id={comment.id}
+          photoId={photoId}
+          author={comment.user.username}
+          payload={comment.payload}
+          isMine={comment.isMine}
         />
       ))}
       <PostCommentContainer>

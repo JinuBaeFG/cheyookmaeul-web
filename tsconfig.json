@@ -24,5 +24,5 @@
     "src"
     , "apollo.config.js"  
   ],
-  "exclude": ["src/__generated__/globalTypes.ts", "src/__generated__/login.ts"]
+  "exclude": ["src/__generated__/globalTypes.ts", "src/__generated__/login.ts", "src/__generated__/seeFeed.ts"]
 }

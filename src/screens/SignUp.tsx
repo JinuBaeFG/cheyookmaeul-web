@@ -57,7 +57,7 @@ const SignUp = () => {
   const onCompleted = (data: createAccount) => {
     const { username, password } = getValues();
     const {
-      createAccount: { ok, error },
+      createAccount: { ok },
     } = data;
     if (!ok) {
       return;

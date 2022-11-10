@@ -31,15 +31,15 @@ export interface seeFeed_seeFeed_comments {
 export interface seeFeed_seeFeed {
   __typename: "Photo";
   id: number;
-  user: seeFeed_seeFeed_user;
   file: string;
-  caption: string | undefined;
   likes: number;
-  comments: (seeFeed_seeFeed_comments | undefined)[] | undefined;
   commentNumber: number;
+  isLiked: boolean;
+  user: seeFeed_seeFeed_user;
+  caption: string | undefined;
+  comments: seeFeed_seeFeed_comments[];
   createdAt: string;
   isMine: boolean;
-  isLiked: boolean;
 }
 
 export interface seeFeed {
