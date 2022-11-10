@@ -3,6 +3,7 @@ import { faComment, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { logUserOut } from "../apollo";
 import Button from "../components/auth/Button";
 import PageTitle from "../components/PageTitle";
 import { FatText } from "../components/shared";
@@ -123,6 +124,12 @@ const Icon = styled.span`
   }
 `;
 
+const ProfileBtnContainer = styled.div`
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
 const ProfileBtn = styled(Button).attrs({
   as: "span",
 })`
@@ -219,7 +226,12 @@ const Profile = () => {
   const getButton = (seeProfile: any) => {
     const { isMe, isFollowing } = seeProfile;
     if (isMe) {
-      return <ProfileBtn>Edit Profile</ProfileBtn>;
+      return (
+        <ProfileBtnContainer>
+          <ProfileBtn>Edit Profile</ProfileBtn>
+          <ProfileBtn onClick={() => logUserOut()}>Log out</ProfileBtn>
+        </ProfileBtnContainer>
+      );
     }
     if (isFollowing) {
       return <ProfileBtn onClick={() => unfollowUser()}>Unfollow</ProfileBtn>;
