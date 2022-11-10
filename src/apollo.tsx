@@ -34,10 +34,10 @@ export const disableDarkMode = () => {
 };
 
 const httpLink = createHttpLink({
-  uri: "http://localhost:4000/graphql",
-  /*process.env.NODE_ENV === "production"
+  uri:
+    process.env.NODE_ENV === "production"
       ? "https://songym-backend.herokuapp.com/graphql"
-      : "http://localhost:4000/graphql",*/
+      : "http://localhost:4000/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
