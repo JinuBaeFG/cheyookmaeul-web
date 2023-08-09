@@ -7,11 +7,24 @@
 // GraphQL fragment: PhotoFragment
 // ====================================================
 
+export interface PhotoFragment_feedUpload {
+  __typename: "FeedUpload";
+  id: number;
+  imagePath: string | null;
+}
+
+export interface PhotoFragment_feedCategoryList {
+  __typename: "FeedCategoryList";
+  id: number | null;
+  name: string | null;
+}
+
 export interface PhotoFragment {
   __typename: "Photo";
   id: number;
-  file: string;
+  feedUpload: (PhotoFragment_feedUpload | null)[] | null;
   likes: number;
-  commentNumber: number;
+  commentCount: number;
   isLiked: boolean;
+  feedCategoryList: (PhotoFragment_feedCategoryList | null)[] | null;
 }

@@ -14,12 +14,12 @@ interface ICommentsProps {
   photoId: number;
   author: string | undefined;
   caption: string | undefined;
-  commentNumber: number;
+  commentCount: number;
   comments: seeFeed_seeFeed_comments[] | undefined;
 }
 
 const CREATE_COMMENT_MUTATION = gql`
-  mutation createComment($photoId: Int!, $payload: String!) {
+  mutation createComment($photoId: String!, $payload: String!) {
     createComment(photoId: $photoId, payload: $payload) {
       ok
       error
@@ -58,7 +58,7 @@ const Comments = ({
   photoId,
   author,
   caption,
-  commentNumber,
+  commentCount,
   comments,
 }: ICommentsProps) => {
   const { data: userData } = useUser();
@@ -138,7 +138,7 @@ const Comments = ({
     <CommentsContainer>
       <Caption author={author} payload={caption} />
       <CommentCount>
-        {commentNumber === 1 ? "1 comment" : `${commentNumber} comments`}
+        {commentCount === 1 ? "1 comment" : `${commentCount} comments`}
       </CommentCount>
       {comments?.map((comment) => (
         <Comment

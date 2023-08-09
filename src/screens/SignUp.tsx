@@ -59,7 +59,7 @@ const SignUp = () => {
     const {
       createAccount: { ok, error },
     } = data;
-    console.log(error);
+
     if (!ok) {
       return;
     }

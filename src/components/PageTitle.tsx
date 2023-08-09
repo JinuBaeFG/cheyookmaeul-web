@@ -8,7 +8,7 @@ type PageTitleProps = {
 function PageTitle({ title }: PageTitleProps) {
   return (
     <Helmet>
-      <title>{title} | 손짐 SonGym</title>
+      <title>{title} | 플레이인어스 PlayInUs</title>
     </Helmet>
   );
 }

@@ -5,13 +5,14 @@ import {
   makeVar,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { createUploadLink } from "apollo-upload-client";
 
 const TOKEN = "TOKEN";
 const DARK_MODE = "DARK_MODE";
 
 export const isLoggedInVar = makeVar(Boolean(localStorage.getItem(TOKEN)));
 
-export const logUserIn = (token: string) => {
+export const logUserIn = (token) => {
   localStorage.setItem(TOKEN, token);
   isLoggedInVar(true);
 };
@@ -33,11 +34,11 @@ export const disableDarkMode = () => {
   darkModeVar(false);
 };
 
-const httpLink = createHttpLink({
+const httpLink = createUploadLink({
   uri:
     process.env.NODE_ENV === "production"
-      ? "https://songym-backend.herokuapp.com/graphql"
-      : "https://hungry-points-dress-14-36-162-26.loca.lt/graphql",
+      ? "http://ec2-13-125-37-103.ap-northeast-2.compute.amazonaws.com/graphql"
+      : "http://localhost:4000/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {

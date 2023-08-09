@@ -63,6 +63,7 @@ const Login = () => {
     const {
       login: { ok, error, token },
     } = data;
+    console.log(ok);
     if (!ok) {
       setError("result", { message: error });
     }

@@ -7,9 +7,9 @@ interface ILayout {
 
 const Content = styled.main`
   margin: 0 auto;
-  margin-top: 45px;
-  max-width: 930px;
-  width: 100%;
+  margin-left: 300px;
+  width: calc(100% - 300px);
+  height: 100%;
 `;
 
 const Layout = ({ children }: ILayout) => {
