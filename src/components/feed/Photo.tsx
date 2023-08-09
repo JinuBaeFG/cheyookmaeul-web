@@ -91,13 +91,13 @@ const TOGGLE_LIKE_MUTATION = gql`
 const Photo = ({
   id,
   user,
-  file,
+  feedUpload,
   isLiked,
   likes,
   caption,
-  commentNumber,
+  commentCount,
   comments,
-}: seeFeed_seeFeed) => {
+}: any) => {
   const updateToggleLike = (cache: any, result: any) => {
     const {
       data: {
@@ -142,7 +142,9 @@ const Photo = ({
             <Username>{user.username}</Username>
           </Link>
         </PhotoHeader>
-        {file !== "empty" ? <PhotoFile src={file} /> : null}
+        {feedUpload?.imagePath !== "empty" ? (
+          <PhotoFile src={feedUpload?.imagePath} />
+        ) : null}
         <PhotoData>
           <PhotoActions>
             <div>
@@ -172,7 +174,7 @@ const Photo = ({
             photoId={id}
             author={user.username}
             caption={caption}
-            commentNumber={commentNumber}
+            commentCount={commentCount}
             comments={comments}
           />
         </PhotoData>

@@ -7,13 +7,30 @@
 // GraphQL query operation: seeProfile
 // ====================================================
 
+export interface seeProfile_seeProfile_photos_feedUpload {
+  __typename: "FeedUpload";
+  id: number;
+  imagePath: string | undefined;
+}
+
+export interface seeProfile_seeProfile_photos_feedCategoryList {
+  __typename: "FeedCategoryList";
+  id: number | undefined;
+  name: string | undefined;
+}
+
 export interface seeProfile_seeProfile_photos {
   __typename: "Photo";
   id: number;
-  file: string;
+  feedUpload:
+    | (seeProfile_seeProfile_photos_feedUpload | undefined)[]
+    | undefined;
   likes: number;
-  commentNumber: number;
+  commentCount: number;
   isLiked: boolean;
+  feedCategoryList:
+    | (seeProfile_seeProfile_photos_feedCategoryList | undefined)[]
+    | undefined;
 }
 
 export interface seeProfile_seeProfile {

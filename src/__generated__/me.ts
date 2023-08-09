@@ -11,6 +11,8 @@ export interface me_me {
   __typename: "User";
   username: string;
   avatar: string | undefined;
+  totalFollowing: number;
+  totalFollowers: number;
 }
 
 export interface me {

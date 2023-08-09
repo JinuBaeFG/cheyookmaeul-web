@@ -7,14 +7,32 @@
 // GraphQL query operation: seeFeed
 // ====================================================
 
+export interface seeFeed_seeFeed_feedUpload {
+  __typename: "FeedUpload";
+  id: number;
+  imagePath: string | undefined;
+}
+
+export interface seeFeed_seeFeed_feedCategoryList {
+  __typename: "FeedCategoryList";
+  id: number | undefined;
+  name: string | undefined;
+}
+
 export interface seeFeed_seeFeed_user {
   __typename: "User";
   username: string;
   avatar: string | undefined;
 }
 
+export interface seeFeed_seeFeed_comments_photo {
+  __typename: "Photo";
+  id: number;
+}
+
 export interface seeFeed_seeFeed_comments_user {
   __typename: "User";
+  id: string;
   username: string;
   avatar: string | undefined;
 }
@@ -22,6 +40,7 @@ export interface seeFeed_seeFeed_comments_user {
 export interface seeFeed_seeFeed_comments {
   __typename: "Comment";
   id: number;
+  photo: seeFeed_seeFeed_comments_photo;
   user: seeFeed_seeFeed_comments_user;
   payload: string;
   isMine: boolean;
@@ -31,17 +50,24 @@ export interface seeFeed_seeFeed_comments {
 export interface seeFeed_seeFeed {
   __typename: "Photo";
   id: number;
-  file: string;
+  feedUpload: (seeFeed_seeFeed_feedUpload | undefined)[];
   likes: number;
-  commentNumber: number;
+  commentCount: number;
   isLiked: boolean;
-  user: seeFeed_seeFeed_user;
+  feedCategoryList:
+    | (seeFeed_seeFeed_feedCategoryList | undefined)[]
+    | undefined;
+  user: seeFeed_seeFeed_user | undefined;
   caption: string | undefined;
-  comments: seeFeed_seeFeed_comments[];
+  comments: (seeFeed_seeFeed_comments | undefined)[];
   createdAt: string;
   isMine: boolean;
 }
 
 export interface seeFeed {
   seeFeed: (seeFeed_seeFeed | undefined)[] | undefined;
+}
+
+export interface seeFeedVariables {
+  offset: number;
 }

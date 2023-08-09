@@ -11,7 +11,7 @@ export interface createComment_createComment {
   __typename: "MutationResponse";
   ok: boolean;
   error: string | undefined;
-  id: number;
+  id: number | undefined;
 }
 
 export interface createComment {

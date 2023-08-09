@@ -13,7 +13,7 @@ interface ICommentProps {
 }
 
 const DELETE_COMMENT_MUTATION = gql`
-  mutation deleteComment($id: Int!) {
+  mutation deleteComment($id: String!) {
     deleteComment(id: $id) {
       ok
     }

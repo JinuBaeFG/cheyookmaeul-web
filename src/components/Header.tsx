@@ -1,77 +1,106 @@
-import { useReactiveVar } from "@apollo/client";
-import { faInstagram } from "@fortawesome/free-brands-svg-icons";
-import { faCompass } from "@fortawesome/free-regular-svg-icons";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { isLoggedInVar } from "../apollo";
-import useUser from "../hooks/useUser";
 import routes from "../routes";
-import Button from "./auth/Button";
-import Avatar from "./Avatar";
 
 const SHeader = styled.header`
-  width: 100%;
-  border-bottom: 1px solid ${(props) => props.theme.borderColor};
-  background-color: ${(props) => props.theme.bgColor};
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100%;
+  background-color: ${(props) => props.theme.menuColor};
   padding: 18px 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Wrapper = styled.div`
-  max-width: 930px;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 
-const Column = styled.div``;
+const activeStyle = {
+  width: "100%",
+  padding: 16,
+  backgroundColor: "#FFFFFF",
+  color: "#01AA73",
+};
 
-const Icon = styled.span`
-  margin-left: 15px;
-`;
-
-const IConsContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
+const deactiveStyle = {
+  width: "100%",
+  padding: 16,
+  backgroundColor: "#01AA73",
+  color: "#FFFFFF",
+};
 
 const Header = () => {
-  const isLoggedIn = useReactiveVar(isLoggedInVar);
-  const { data } = useUser();
   return (
     <SHeader>
       <Wrapper>
-        <Column>
-          <FontAwesomeIcon icon={faInstagram} size="2x" />
-        </Column>
-        <Column>
-          {isLoggedIn ? (
-            <IConsContainer>
-              <Icon>
-                <Link to={routes.home}>
-                  <FontAwesomeIcon icon={faHome} size="lg" />
-                </Link>
-              </Icon>
-              <Icon>
-                <FontAwesomeIcon icon={faCompass} size="lg" />
-              </Icon>
-              <Icon>
-                <Link to={`/users/${data?.me?.username}`}>
-                  <Avatar url={data?.me?.avatar} />
-                </Link>
-              </Icon>
-            </IConsContainer>
-          ) : (
-            <Link to={routes.home}>
-              <Button>Log in</Button>
-            </Link>
-          )}
-        </Column>
+        <NavLink
+          to={routes.home}
+          style={({ isActive }: any) => {
+            return isActive ? activeStyle : deactiveStyle;
+          }}
+        >
+          홈
+        </NavLink>
+        <NavLink
+          to={routes.contest}
+          style={({ isActive }: any) => {
+            return isActive ? activeStyle : deactiveStyle;
+          }}
+        >
+          대회관리
+        </NavLink>
+        <NavLink
+          to={routes.banner}
+          style={({ isActive }: any) => {
+            return isActive ? activeStyle : deactiveStyle;
+          }}
+        >
+          배너관리
+        </NavLink>
+        <NavLink
+          to={routes.category}
+          style={({ isActive }: any) => {
+            return isActive ? activeStyle : deactiveStyle;
+          }}
+        >
+          카테고리 관리
+        </NavLink>
+        <NavLink
+          to={routes.feed}
+          style={({ isActive }: any) => {
+            return isActive ? activeStyle : deactiveStyle;
+          }}
+        >
+          피드 관리
+        </NavLink>
+        <NavLink
+          to={routes.memeber}
+          style={({ isActive }: any) => {
+            return isActive ? activeStyle : deactiveStyle;
+          }}
+        >
+          회원 관리
+        </NavLink>
+        <NavLink
+          to={routes.board}
+          style={({ isActive }: any) => {
+            return isActive ? activeStyle : deactiveStyle;
+          }}
+        >
+          게시판 관리
+        </NavLink>
+        <NavLink
+          to={routes.facility}
+          style={({ isActive }: any) => {
+            return isActive ? activeStyle : deactiveStyle;
+          }}
+        >
+          시설 관리
+        </NavLink>
       </Wrapper>
     </SHeader>
   );
