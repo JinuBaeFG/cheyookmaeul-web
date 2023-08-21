@@ -1,6 +1,8 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import routes from "../routes";
+import { useReactiveVar } from "@apollo/client";
+import { isLoggedInVar, logUserOut } from "../apollo";
 
 const SHeader = styled.header`
   position: fixed;
@@ -10,6 +12,9 @@ const SHeader = styled.header`
   height: 100%;
   background-color: ${(props) => props.theme.menuColor};
   padding: 18px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const Wrapper = styled.div`
@@ -18,6 +23,15 @@ const Wrapper = styled.div`
   min-width: 300px;
   width: 100%;
 `;
+
+const LogoutButton = styled.div`
+  padding: 16px;
+  color: #00ffff;
+  font-weight: 600;
+  cursor: pointer;
+`;
+
+const LogoutButtonText = styled.div``;
 
 const activeStyle = {
   width: "100%",
@@ -34,6 +48,7 @@ const deactiveStyle = {
 };
 
 const Header = () => {
+  const isLoggedIn = useReactiveVar(isLoggedInVar);
   return (
     <SHeader>
       <Wrapper>
@@ -102,6 +117,13 @@ const Header = () => {
           시설 관리
         </NavLink>
       </Wrapper>
+      {isLoggedIn ? (
+        <Wrapper>
+          <LogoutButton onClick={() => logUserOut()}>
+            <LogoutButtonText>로그아웃</LogoutButtonText>
+          </LogoutButton>
+        </Wrapper>
+      ) : null}
     </SHeader>
   );
 };
