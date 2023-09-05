@@ -252,6 +252,7 @@ function EditContest() {
 
   const onSubmitValid: SubmitHandler<any> = (data) => {
     data.contestRecruitNumber = parseInt(data.contestRecruitNumber);
+
     editContestMutation({
       variables: {
         ...data,
@@ -556,7 +557,6 @@ function EditContest() {
   const setDatetime = () => {
     let startDate = new Date(data?.seeContest.contestRecruitStart);
     let endDate = new Date(data?.seeContest.contestRecruitEnd);
-    console.log(startDate, endDate);
     if (
       data?.seeContest.contestRecruitStart !== undefined &&
       data?.seeContest.contestRecruitEnd !== undefined
@@ -648,8 +648,8 @@ function EditContest() {
 
   const onChangeContestHost = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      setContestStadium(e.target.value);
-      setValue("contestStadium", e.target.value);
+      setContestHost(e.target.value);
+      setValue("contestHost", e.target.value);
     },
     []
   );
