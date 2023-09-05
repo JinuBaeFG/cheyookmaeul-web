@@ -10,6 +10,7 @@ interface ConfigProps {
   privacyTerms?: string | undefined;
   gpsTerms?: string | undefined;
   useTerms?: string | undefined;
+  businessInfo?: string | undefined;
 }
 
 const SEE_CONFIG_QUERY = gql`
@@ -19,6 +20,7 @@ const SEE_CONFIG_QUERY = gql`
       privacyTerms
       gpsTerms
       useTerms
+      businessInfo
     }
   }
 `;
@@ -29,12 +31,14 @@ const EDIT_CONFIG_MUTATION = gql`
     $privacyTerms: String
     $gpsTerms: String
     $useTerms: String
+    $businessInfo: String
   ) {
     editConfig(
       id: $id
       privacyTerms: $privacyTerms
       gpsTerms: $gpsTerms
       useTerms: $useTerms
+      businessInfo: $businessInfo
     ) {
       ok
       error
@@ -99,6 +103,7 @@ const Config = () => {
   const [privacy, setPrivacy] = useState("");
   const [gps, setGps] = useState("");
   const [use, setUse] = useState("");
+  const [business, setBusiness] = useState("");
 
   const onCompleted = (data: any) => {
     const {
@@ -129,6 +134,7 @@ const Config = () => {
         privacyTerms: data.privacyTerms,
         gpsTerms: data.gpsTerms,
         useTerms: data.useTerms,
+        businessInfo: data.businessInfo,
       },
     });
   };
@@ -190,6 +196,7 @@ const Config = () => {
     register("privacyTerms");
     register("gpsTerms");
     register("useTerms");
+    register("businessInfo");
   }, [register]);
 
   useEffect(() => {
@@ -197,13 +204,15 @@ const Config = () => {
     setValue("privacyTerms", privacy);
     setValue("gpsTerms", gps);
     setValue("useTerms", use);
-  }, [id, privacy, gps, use, setValue]);
+    setValue("businessInfo", business);
+  }, [id, privacy, gps, use, business, setValue]);
 
   useEffect(() => {
     setId(data?.seeConfig.id || "");
     setPrivacy(data?.seeConfig.privacyTerms || "");
     setGps(data?.seeConfig.gpsTerms || "");
     setUse(data?.seeConfig.useTerms || "");
+    setBusiness(data?.seeConfig.businessInfo || "");
   }, [data]);
 
   return (
@@ -257,6 +266,24 @@ const Config = () => {
               value={gps || ""}
               onChange={(value) => {
                 setGps(value);
+              }}
+              modules={modules}
+              theme="snow"
+              placeholder="내용을 입력해주세요."
+              style={{ height: 400 }}
+            />
+          </TextEditor>
+          <Title>사업자 정보 안내</Title>
+          <TextEditor>
+            <ReactQuill
+              ref={(element) => {
+                if (element !== null) {
+                  QuillRef.current = element;
+                }
+              }}
+              value={business || ""}
+              onChange={(value) => {
+                setBusiness(value);
               }}
               modules={modules}
               theme="snow"

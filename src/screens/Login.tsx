@@ -33,8 +33,8 @@ const Notification = styled.div`
 `;
 
 const LOGIN_MUTATION = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
+  mutation adminLogin($id: String!, $password: String!) {
+    adminLogin(id: $id, password: $password) {
       ok
       token
       error
@@ -54,16 +54,16 @@ const Login = () => {
   } = useForm<loginVariables>({
     mode: "onChange",
     defaultValues: {
-      username: location?.state?.username || "",
+      id: location?.state?.id || "",
       password: location?.state?.password || "",
     },
   });
 
-  const onCompleted = (data: login) => {
+  const onCompleted = (data: any) => {
     const {
-      login: { ok, error, token },
+      adminLogin: { ok, error, token },
     } = data;
-    console.log(ok);
+
     if (!ok) {
       setError("result", { message: error });
     }
@@ -79,10 +79,10 @@ const Login = () => {
     if (loading) {
       return;
     }
-    const { username, password } = getValues();
+    const { id, password } = getValues();
     loginMutation({
       variables: {
-        username,
+        id,
         password,
       },
     });
@@ -94,13 +94,10 @@ const Login = () => {
     <AuthLayout>
       <PageTitle title="Login" />
       <FormBox>
-        <div>
-          <FontAwesomeIcon icon={faInstagram} size="3x" />
-        </div>
         <Notification>{location?.state?.message}</Notification>
         <form onSubmit={handleSubmit(onSubmitValid)}>
           <Input
-            {...register("username", {
+            {...register("id", {
               required: "Username is required",
               minLength: {
                 value: 2,
@@ -108,12 +105,12 @@ const Login = () => {
               },
             })}
             onFocus={() => clearLoginError()}
-            name="username"
+            name="id"
             type="text"
-            placeholder="username"
+            placeholder="ID"
             hasError={Boolean(formState.errors?.password?.message)}
           />
-          <FormError message={formState.errors?.username?.message} />
+          <FormError message={formState.errors?.id?.message} />
           <Input
             {...register("password", {
               required: "Password is required.",
@@ -133,16 +130,7 @@ const Login = () => {
           <FormError message={formState.errors?.result?.message} />
         </form>
         <Separator />
-        <FacebookLogin>
-          <FontAwesomeIcon icon={faFacebookSquare} />
-          <span>Log in with Facebook</span>
-        </FacebookLogin>
       </FormBox>
-      <BottomBox
-        cta="Don't have an account?"
-        linkText="Sign up"
-        link={routes.signUp}
-      />
     </AuthLayout>
   );
 };

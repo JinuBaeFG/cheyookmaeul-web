@@ -19,7 +19,7 @@ export interface login {
 }
 
 export interface loginVariables {
-  username: string;
+  id: string;
   password: string;
   result: string | undefined;
 }
